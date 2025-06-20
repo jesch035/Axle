@@ -1,7 +1,10 @@
 project(Axle)
 
-add_executable(Axle main.cpp)
+file(GLOB AXLE_SOURCES "src/*.cpp" "src/*.h")
 
-#set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/Axle/$<CONFIG>")
-#set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/Axle/$<CONFIG>")
-#set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/Axle/$<CONFIG>")
+#source_group("Function" FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/function.cpp)
+
+add_library(Axle SHARED ${AXLE_SOURCES})
+
+# Add this line if your headers are in src/
+target_include_directories(Axle PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
