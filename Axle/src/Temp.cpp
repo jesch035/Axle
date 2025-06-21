@@ -1,5 +1,4 @@
 #include "Temp.h"
-#include <iostream>
 
 void helloWorld()
 {
