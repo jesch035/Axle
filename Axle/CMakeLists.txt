@@ -1,15 +1,15 @@
 project(Axle)
 
-file(GLOB AXLE_SOURCES "src/*.cpp" "src/*.h")
+file(GLOB AXLE_ROOT_FILES "Axle/*.cpp" "Axle/*.h")
+file(GLOB AXLE_EVENTS "Axle/Events/*.cpp" "Axle/Events/*.h")
 
-#source_group("Function" FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/function.cpp)
+source_group("" FILES ${ROOT_FILES})
+source_group("Axle" FILES ${AXLE_ROOT_FILES})
+source_group("Axle\\Events" FILES ${AXLE_EVENTS})
 
-set(SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-
-add_library(Axle SHARED ${AXLE_SOURCES})
-
-target_precompile_headers(Axle PRIVATE ${SOURCE_DIR}/pch.h)
+add_library(Axle SHARED ${ROOT_FILES} ${AXLE_ROOT_FILES} ${AXLE_EVENTS})
 target_compile_definitions(Axle PUBLIC AX_PLATFORM_WINDOWS PRIVATE AX_BUILD_DLL)
 
-# Add this line if your headers are in src/
-target_include_directories(Axle PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../extern/spdlog/include ${SOURCE_DIR})
+target_precompile_headers(Axle PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Axle/pch.h)
+
+target_include_directories(Axle PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Axle ${CMAKE_CURRENT_SOURCE_DIR}/Axle/Events ${CMAKE_CURRENT_SOURCE_DIR}/../extern/spdlog/include)
