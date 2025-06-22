@@ -6,13 +6,13 @@
 
 namespace Axle
 {
-	class Log
+	class AXLE_API Log
 	{
 	public:
-		AXLE_API static void Init();
+		static void Init();
 
-		AXLE_API static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
-		AXLE_API static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
+		static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
+		static std::shared_ptr<spdlog::logger>& GetClientLogger() { return s_ClientLogger; }
 
 	private:
 		static std::shared_ptr<spdlog::logger> s_CoreLogger;
