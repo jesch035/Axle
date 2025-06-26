@@ -8,7 +8,12 @@ source_group("Axle" FILES ${AXLE_ROOT_FILES})
 source_group("Axle\\Events" FILES ${AXLE_EVENTS})
 
 add_library(Axle SHARED ${ROOT_FILES} ${AXLE_ROOT_FILES} ${AXLE_EVENTS})
-target_compile_definitions(Axle PUBLIC AX_PLATFORM_WINDOWS PRIVATE AX_BUILD_DLL)
+target_compile_definitions(Axle
+	PUBLIC
+	$<$<CONFIG:Debug>:AX_CONFIG_DEBUG>
+	$<$<CONFIG:Release>:AX_CONFIG_RELEASE>
+	AX_PLATFORM_WINDOWS PRIVATE AX_BUILD_DLL
+)
 
 target_precompile_headers(Axle PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/Axle/pch.h)
 
