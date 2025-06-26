@@ -1,5 +1,5 @@
 #include "Application.h"
-
+#include "WindowsWindow.h"
 #include "ApplicationEvent.h"
 #include "Log.h"
 
@@ -7,6 +7,7 @@ namespace Axle
 {
 	Application::Application()
 	{
+		m_Window = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -14,13 +15,9 @@ namespace Axle
 	}
 	void Application::run()
 	{
-		WindowResizeEvent e(1280, 720);
-		if(e.IsInCategory(EventCategoryApplication))
-			AX_TRACE(e);
-
-		if (e.IsInCategory(EventCategoryInput))
-			AX_TRACE(e);
-
-		while (true);
+		while (m_Running)
+		{
+			m_Window->OnUpdate();
+		}
 	}
 }
