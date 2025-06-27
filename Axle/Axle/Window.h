@@ -28,6 +28,8 @@ namespace Axle
 		virtual ~Window() {}
 
 		virtual void OnUpdate() = 0;
+		
+		virtual void Show() const {}
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;

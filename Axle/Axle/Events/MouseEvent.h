@@ -6,10 +6,10 @@
 
 namespace Axle
 {
-	class AXLE_API MouseEvent : public Event
+	class AXLE_API MouseMovedEvent : public Event
 	{
 	public:
-		MouseEvent(float x, float y)
+		MouseMovedEvent(float x, float y)
 			: m_MouseX(x), m_MouseY(y) {}
 
 		float GetX() const { return m_MouseX; }
@@ -18,7 +18,7 @@ namespace Axle
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseEvent: (" << m_MouseX << ", " << m_MouseY << ")";
+			ss << "MouseMovedEvent: (" << m_MouseX << ", " << m_MouseY << ")";
 			return ss.str();
 		}
 

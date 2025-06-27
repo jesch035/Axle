@@ -8,7 +8,7 @@ namespace Axle
 
 	void Log::Init()
 	{
-		spdlog::set_pattern("%^[%T] %n: %v%$");
+		spdlog::set_pattern("[%T] [%^%l%$] %n: %v");
 		s_CoreLogger = spdlog::stdout_color_mt("AXLE");
 		s_CoreLogger->set_level(spdlog::level::trace);
 

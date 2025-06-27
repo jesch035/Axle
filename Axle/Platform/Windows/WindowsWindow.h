@@ -7,6 +7,8 @@
 
 namespace Axle
 {
+	
+	
 	class WindowsWindow : public Window
 	{
 	public:
@@ -14,6 +16,8 @@ namespace Axle
 		virtual ~WindowsWindow();
 		
 		void OnUpdate() override;
+		
+		void Show() const override { ShowWindow(m_WindowHandle, SW_SHOW); }
 		
 		unsigned int GetWidth() const override { return m_Data.Width; }
 		unsigned int GetHeight() const override { return m_Data.Height; }
@@ -30,15 +34,17 @@ namespace Axle
         HWND m_WindowHandle;
         HINSTANCE m_InstanceHandle;
 
-        struct WindowData
-        {
-            std::string Title;
-            unsigned int Width, Height;
-            bool VSync;
+		struct WindowData
+		{
+			std::string Title;
+			unsigned int Width, Height;
+			bool VSync;
 			
-            EventCallbackFn EventCallback;
-        };
+			EventCallbackFn EventCallback;
+		};
 
         WindowData m_Data;
+		
+		friend LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	};
 }

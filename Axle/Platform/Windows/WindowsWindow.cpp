@@ -1,5 +1,11 @@
+#include <windowsx.h>
+
 #include "WindowsWindow.h"
 #include "Log.h"
+
+#include "ApplicationEvent.h"
+#include "MouseEvent.h"
+#include "KeyEvent.h"
 
 namespace Axle
 {
@@ -7,21 +13,108 @@ namespace Axle
 	static LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     {
         WindowsWindow* window = reinterpret_cast<WindowsWindow*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+		if (!window)
+			return DefWindowProc(hwnd, uMsg, wParam, lParam);
+		
+		WindowsWindow::WindowData& data = window->m_Data;
 
         switch (uMsg)
         {
+		case WM_SIZE:
+		{
+			data.Width = LOWORD(lParam);
+			data.Height = HIWORD(lParam);
+			
+			WindowResizeEvent event(data.Width, data.Height);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_KEYDOWN:
+		{
+			int repeatCount = static_cast<int>(lParam & 0xFFFF);
+				
+			KeyPressedEvent event(static_cast<int>(wParam), repeatCount);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_KEYUP:
+		{
+			KeyReleasedEvent event(static_cast<int>(wParam));
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_LBUTTONDOWN:
+		{
+			MouseButtonPressedEvent event(0);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_LBUTTONUP:
+		{
+			MouseButtonReleasedEvent event(0);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_RBUTTONDOWN:
+		{
+			MouseButtonPressedEvent event(1);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_RBUTTONUP:
+		{
+			MouseButtonReleasedEvent event(1);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_MOUSEWHEEL:
+		{
+			float yOffset = static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / 120.0f;
+			MouseScrollEvent event(0.0f, yOffset);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_MOUSEHWHEEL:
+		{
+			float xOffset = static_cast<float>(GET_WHEEL_DELTA_WPARAM(wParam)) / 120.0f;
+			MouseScrollEvent event(xOffset, 0.0f);
+			data.EventCallback(event);
+			
+			return 0;
+		}
+		case WM_MOUSEMOVE:
+		{
+			float xPos = static_cast<float>(GET_X_LPARAM(lParam));
+			float yPos = static_cast<float>(GET_Y_LPARAM(lParam));
+				
+			MouseMovedEvent event(xPos, yPos);
+			data.EventCallback(event);
+			
+			return 0;
+		}
         case WM_CLOSE:
-            PostQuitMessage(0);
-            return 0;
-
+		{
+			WindowCloseEvent event;
+			data.EventCallback(event);
+			
+			DestroyWindow(hwnd);
+			return 0;
+		}
         case WM_DESTROY:
-            return 0;
+            PostQuitMessage(0);
+			return 0;
 
         default:
-            break;
+            return DefWindowProc(hwnd, uMsg, wParam, lParam);
         }
-
-        return DefWindowProc(hwnd, uMsg, wParam, lParam);
     }
 	
 	Window* Window::Create(const WindowProps& props)
@@ -72,9 +165,7 @@ namespace Axle
 		
 		SetWindowLongPtr(m_WindowHandle, GWLP_USERDATA, (LONG_PTR)this);
 		
-		SetVSync(true);
-		
-		ShowWindow(m_WindowHandle, SW_SHOW);
+		SetVSync(true);		
 	}
 	
 	void WindowsWindow::Shutdown()
