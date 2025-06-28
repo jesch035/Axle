@@ -23,7 +23,10 @@ namespace Axle
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
 		
-		AX_CORE_TRACE("{0}", e);
+		if (e.IsInCategory(EventCategory::EventCategoryApplication))
+			AX_CORE_INFO("{0}", e);
+
+		//AX_CORE_TRACE("{0}", e);
 	}
 		
 	void Application::run()
