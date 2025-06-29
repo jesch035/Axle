@@ -32,21 +32,13 @@ namespace Axle
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClose));
-<<<<<<< HEAD
 
-		for(auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			(*--it)->OnEvent(e);
 			if (e.IsHandled())
 				break;
 		}
-=======
-		
-		if (e.IsInCategory(EventCategory::EventCategoryApplication))
-			AX_CORE_INFO("{0}", e);
-
-		//AX_CORE_TRACE("{0}", e);
->>>>>>> dfbbef099747eadfe0ba38b61288a2bfcfb68ae4
 	}
 		
 	void Application::run()
