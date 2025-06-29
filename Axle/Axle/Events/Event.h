@@ -43,6 +43,7 @@ namespace Axle
 		virtual const char* GetName() const = 0;
 		virtual int GetCategoryFlags() const = 0;
 		virtual std::string ToString() const { return GetName(); }
+		virtual const bool IsHandled() const { return m_Handled; }
 
 		bool IsInCategory(EventCategory category)
 		{

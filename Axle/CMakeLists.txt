@@ -7,7 +7,7 @@ file(GLOB AXLE_PLATFORM_WINDOWS "Platform/Windows/*.cpp" "Platform/Windows/*.h")
 source_group("" FILES ${ROOT_FILES})
 source_group("Axle" FILES ${AXLE_ROOT_FILES})
 source_group("Axle\\Events" FILES ${AXLE_EVENTS})
-source_group("Axle\\Platform\\Windows" FILES ${AXLE_PLATFORM_WINDOWS})
+source_group("Platform\\Windows" FILES ${AXLE_PLATFORM_WINDOWS})
 
 add_library(Axle SHARED ${ROOT_FILES} ${AXLE_ROOT_FILES} ${AXLE_EVENTS} ${AXLE_PLATFORM_WINDOWS})
 target_compile_definitions(Axle
