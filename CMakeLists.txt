@@ -10,5 +10,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/$<CONFIG>")
 
 add_subdirectory(Axle)
 add_subdirectory(SandboxApp)
+add_subdirectory(extern/spdlog)
+add_subdirectory(extern/imgui)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT SandboxApp)
